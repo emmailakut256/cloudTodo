@@ -1,5 +1,5 @@
-import { S3Client } from "@aws-sdk/client-s3";
-import dotenv from 'dotenv';
+const { S3Client } = require("@aws-sdk/client-s3");
+const  dotenv = require('dotenv');
 
 dotenv.config();
 
