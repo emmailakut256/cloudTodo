@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // MongoDB connection
-mongoose.connect('mongodb://13.51.193.10:27017/todoapp', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://13.51.193.10:27017/todoapp', { useNewUrlParser: true, useUnifiedTopology: true , serverSelectionTimeoutMS:3000, socketTimeoutMS:4500})
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
