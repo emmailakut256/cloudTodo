@@ -1,15 +1,21 @@
+import { S3Client } from "@aws-sdk/client-s3";
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const app = express();
 const port = process.env.PORT || 3000;
+const name = process.env.USERNAME;
 
 // Middleware
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/todoapp', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://13.51.193.10:27017/todoapp', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
@@ -32,8 +38,13 @@ app.post("/api/todos", async (req, res) => {
   const newTodo = new Todo({
     task: req.body.task,
   });
+  try{
   const savedTodo = await newTodo.save();
   res.json(savedTodo);
+  }catch(error){
+    console.error("Error saving todo: ", error);
+    res.status(500).send({ message: "Failed to save todo :", error });
+  }
 });
 
 // Update todo (complete or edit task)
